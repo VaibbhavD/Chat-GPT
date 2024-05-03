@@ -1,9 +1,21 @@
+import UserInput from "./User_input";
+import Chatgpt_res from "./chat-gpt_response";
+
 const Main = () => {
   return (
-    <body class="flex flex-col items-center justify-center p-5 min-h-screen bg-gray-100 text-gray-800 lg:ml-48">
+    <body class="flex flex-col items-center justify-center p-5 min-h-screen  text-gray-800 lg:ml-48">
       {/* <!-- Component Start --> */}
-      <div class="flex flex-col flex-grow w-full max-w-2xl bg-white shadow-xl rounded-lg overflow-hidden">
-        <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
+      <div class="flex flex-col flex-grow w-full max-w-2xl  shadow-xl rounded-lg overflow-hidden">
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <Chatgpt_res />
+        <UserInput />
+        {/* <div class="flex flex-col flex-grow h-0 p-4 overflow-auto">
           <div class="flex w-full mt-2 space-x-3 max-w-xs">
             <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-300">
               <img
@@ -111,13 +123,13 @@ const Main = () => {
           </div>
         </div>
 
-        <div class="bg-gray-300 p-4">
-          <input
-            class="flex items-center h-10 w-full rounded px-3 text-sm"
-            type="text"
-            placeholder="Type your message…"
-          />
-        </div>
+        <div class="bg-gray-300 p-4"> */}
+        <input
+          class="flex items-center h-10 w-full rounded px-3 text-sm"
+          type="text"
+          placeholder="Type your message…"
+        />
+        {/* </div> */}
       </div>
       {/* <!-- Component End  --> */}
     </body>
