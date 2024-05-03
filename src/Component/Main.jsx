@@ -1,11 +1,12 @@
 import UserInput from "./User_input";
 import Chatgpt_res from "./chat-gpt_response";
+import "../App.css";
 
 const Main = () => {
   return (
-    <body class="flex flex-col items-center justify-center p-5 min-h-screen  text-gray-800 lg:ml-48">
+    <body class="flex flex-col items-center justify-center p-5 max-h-screen text-gray-800 lg:ml-96">
       {/* <!-- Component Start --> */}
-      <div class="flex flex-col flex-grow w-full max-w-2xl  shadow-xl rounded-lg overflow-hidden">
+      <div class="flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg ">
         <Chatgpt_res />
         <Chatgpt_res />
         <Chatgpt_res />
@@ -123,13 +124,14 @@ const Main = () => {
           </div>
         </div>
 
-        <div class="bg-gray-300 p-4"> */}
+    */}
+      </div>
+      <div class=" p-4 w-full max-w-2xl">
         <input
-          class="flex items-center h-10 w-full rounded px-3 text-sm"
+          class="flex items-center h-10 w-full min-w-2xl rounded-xl p-6 text-sm border-2"
           type="text"
           placeholder="Type your message…"
         />
-        {/* </div> */}
       </div>
       {/* <!-- Component End  --> */}
     </body>
