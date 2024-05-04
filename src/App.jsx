@@ -3,15 +3,14 @@ import Sidebar from "./Component/Sidebar";
 import "./App.css";
 import Main from "./Component/Main";
 import ChatGPTPage from "./Component/Sidebar";
+import ContextProvider from "./ContextStore/ContextProvider";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <ChatGPTPage />
+    <ContextProvider>
+      <Sidebar />
       <Main />
-    </div>
+    </ContextProvider>
   );
 }
 
