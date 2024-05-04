@@ -1,3 +1,5 @@
+import React from "react";
+
 const UserInput = (props) => {
   return (
     <div class="flex w-full mt-2 space-x-3 max-w-xl m-4 font-semibold mb-4">
@@ -9,10 +11,12 @@ const UserInput = (props) => {
       </div>
       <div>
         <span class="font-bold ">You</span>
-        <div class=" p-3 rounded-r-lg rounded-bl-lg">
-          <p class="text-sm">{props.UserInput}</p>
+        <div class=" rounded-r-lg rounded-bl-lg">
+          <p class="text-sm pl-4 ">{props.user.data}</p>
         </div>
-        {/* <span class="text-xs text-gray-500 leading-none">2 min ago</span> */}
+        <span class="text-[12px] text-gray-500 leading-none">
+          {props.user.time}
+        </span>
       </div>
     </div>
   );
