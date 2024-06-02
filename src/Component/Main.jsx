@@ -4,12 +4,13 @@ import Chatgpt_res from "./chat-gpt_response";
 import UpArrow from "../images/up-arrow.png";
 import Context from "../ContextStore/Store";
 import "../App.css";
+import { run } from "../ContextStore/ChatGPTapi";
 
 const Main = () => {
   const [userInput, setUserInput] = useState("");
   const context = useContext(Context);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Do something with the user input, like sending it to a chatbot
     const data = {
@@ -18,15 +19,20 @@ const Main = () => {
       time: new Date().toLocaleTimeString(),
     };
     context.AddMesages(data);
-    // Clear input field after submission if needed
-    setUserInput("");
+    const res = await run(userInput);
+    const ai = {
+      type: "user",
+      data: res,
+      time: new Date().toLocaleTimeString(),
+    };
+    context.AddMesages(ai);
   };
 
   return (
     <div className="flex flex-col items-center justify-center p-5 max-h-screen h-screen text-gray-800 lg:ml-80">
       <div className="flex flex-col flex-grow w-full max-w-2xl min-h-0 overflow-auto scrollbar-hide rounded-lg">
         {context.Messages ? (
-          context.Messages.map((mess) => <Chatgpt_res user={mess} />)
+          context.Messages.map((mess) => <UserInput user={mess} />)
         ) : (
           <h1>Vaibhav</h1>
         )}
