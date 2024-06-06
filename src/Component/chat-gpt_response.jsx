@@ -2,22 +2,27 @@ import React from "react";
 
 const Chatgpt_res = (props) => {
   return (
-    <div class="flex w-full mt-2 space-x-3 max-w-xl m-4 font-semibold mb-4">
-      <div class="flex-shrink-0 h-10 w-10 rounded-full flex justify-center items-center">
-        <img
-          src="https://tse4.mm.bing.net/th?id=OIP.n6aTpKW4pOfH1J91PU5yhwAAAA&pid=Api&P=0&h=180"
-          alt="image"
-          className="w-7"
-        />
-      </div>
-      <div>
-        <span class="font-bold ">ChatGPT</span>
-        <div class="rounded-r-lg rounded-bl-lg">
-          <p class="text-sm pl-4">{props.user.data}</p>
+    <div class="flex items-start gap-2.5 pb-5">
+      <img
+        class="w-8 h-8 rounded-full"
+        src="https://tse4.mm.bing.net/th?id=OIP.n6aTpKW4pOfH1J91PU5yhwAAAA&pid=Api&P=0&h=180"
+        alt="Jese image"
+      />
+      <div class="flex flex-col gap-1 w-full max-w-[600px]">
+        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+          <span class="text-sm font-semibold text-gray-900 dark:text-white">
+            Bonnie Green
+          </span>
+          <span class="text-xs font-normal text-gray-500 dark:text-gray-400">
+            {props.ai.time}
+          </span>
         </div>
-        <span class="text-xs text-gray-500 leading-none">
-          {props.user.time}
-        </span>
+        <div class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+          <p class="text-sm font-normal text-gray-900 dark:text-white">
+            {" "}
+            {props.ai.data}
+          </p>
+        </div>
       </div>
     </div>
   );
