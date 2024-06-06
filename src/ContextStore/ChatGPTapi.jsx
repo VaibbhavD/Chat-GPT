@@ -46,6 +46,11 @@ const safetySettings = [
   },
 ];
 
+function sanitizeText(text) {
+  // Replace or remove unwanted characters
+  return text.replace(/[^a-zA-Z0-9 .,?!]/g, ""); // Example: only keep letters, numbers, and basic punctuation
+}
+
 export async function run(input) {
   const chatSession = model.startChat({
     generationConfig,
@@ -54,5 +59,9 @@ export async function run(input) {
   });
 
   const result = await chatSession.sendMessage(input);
-  return result.response.text();
+  const responseText = result.response.text();
+
+  // Sanitize the response text
+  const sanitizedResponse = sanitizeText(responseText);
+  return sanitizedResponse;
 }
