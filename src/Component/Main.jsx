@@ -19,9 +19,10 @@ const Main = () => {
       time: new Date().toLocaleTimeString(),
     };
     context.AddMesages(data);
+    setUserInput("");
     const res = await run(userInput);
     const ai = {
-      type: "user",
+      type: "ai",
       data: res,
       time: new Date().toLocaleTimeString(),
     };
