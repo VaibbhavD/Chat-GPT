@@ -9,6 +9,10 @@ const ContextProvider = (props) => {
     SetMessages((prev) => [...prev, messages]);
   };
 
+  const setloading = () => {
+    Setloading((prev) => !prev);
+  };
+
   const context = {
     Messages: messages,
     AddMesages: AddMesages,
