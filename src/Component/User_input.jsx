@@ -4,14 +4,16 @@ const UserInput = (props) => {
   const [displayedText, setDisplayedText] = useState("");
 
   useEffect(() => {
-    if (props.user.type === "bot") {
+    if (props.user.type === "ai") {
       let i = 0;
+      let text = "";
       setDisplayedText(""); // Reset displayedText when a new bot message is received
       const typingEffect = () => {
         if (i < props.user.data.length) {
-          setDisplayedText((prev) => prev + props.user.data.charAt(i));
+          text += props.user.data.charAt(i);
+          setDisplayedText(text);
           i++;
-          setTimeout(typingEffect, 50); // Adjust typing speed here
+          setTimeout(typingEffect, 30); // Adjust typing speed here
         }
       };
       typingEffect();
