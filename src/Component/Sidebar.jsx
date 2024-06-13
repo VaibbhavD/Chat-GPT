@@ -8,7 +8,7 @@ const Sidebar = () => {
   }
   return (
     <>
-      <body class="bg-blue-600">
+      <body class="bg-blue-600 hidden lg:block">
         <span
           class="absolute text-white text-4xl top-5 left-4 cursor-pointer"
           onClick={openSidebar}
