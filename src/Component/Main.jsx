@@ -20,17 +20,27 @@ const Main = () => {
     };
     context.AddMesages(data);
     setUserInput("");
+    context.Setloader();
+    console.log(context.loader);
     const res = await run(userInput);
     const ai = {
       type: "ai",
       data: res,
       time: new Date().toLocaleTimeString(),
     };
+    console.log(ai);
     context.AddMesages(ai);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-5 max-h-screen h-screen text-gray-800 lg:ml-80">
+    <div className="flex flex-col items-center justify-center max-h-screen h-screen text-gray-800 lg:ml-80 pb-5">
+      <nav className="w-full h-4 py-7 flex justify-between items-center font-semibold text-lg text-stone-500 ">
+        <select className="border-none font-bolder text-md p-2 rounded-md hover:bg-stone-100">
+          <option>ChatGPT</option>
+          <option>ChatGPT 4.0</option>
+        </select>
+        <div>Dark Mode</div>
+      </nav>
       <div className="flex flex-col flex-grow w-full max-w-2xl min-h-0 overflow-auto scrollbar-hide rounded-lg">
         {context.Messages ? (
           context.Messages.map((mess) => <UserInput user={mess} />)
@@ -45,7 +55,7 @@ const Main = () => {
         className="w-full max-w-2xl flex rounded-xl border-2 p-2"
       >
         <input
-          className="flex items-center h-4 w-full min-w-2xl rounded-xl p-4 text-sm outline-none font-bolder"
+          className="flex items-center h-4 w-full min-w-2xl rounded-xl p-4 text-md outline-none font-bolder"
           type="text"
           placeholder="Type your message…"
           value={userInput}
