@@ -20,16 +20,8 @@ const Main = () => {
     };
     context.AddMesages(data);
     setUserInput("");
-    context.Setloader();
-    console.log(context.loader);
-    const res = await run(userInput);
-    const ai = {
-      type: "ai",
-      data: res,
-      time: new Date().toLocaleTimeString(),
-    };
-    console.log(ai);
-    context.AddMesages(ai);
+    // context.Setloader();
+    // console.log(context.loader);
   };
 
   return (
@@ -41,7 +33,7 @@ const Main = () => {
         </select>
         <div>Dark Mode</div>
       </nav>
-      <div className="flex flex-col flex-grow w-full max-w-2xl min-h-0 overflow-auto scrollbar-hide rounded-lg">
+      <div className="flex flex-col flex-grow w-full max-w-2xl min-h-0 overflow-auto scrollbar-hide rounded-lg p-4">
         {context.Messages ? (
           context.Messages.map((mess) => <UserInput user={mess} />)
         ) : (
