@@ -43,7 +43,7 @@ const Main = () => {
         </select>
       </nav>
       <div
-        className="flex flex-col flex-grow w-full max-w-2xl min-h-0 overflow-auto scrollbar-hide rounded-lg p-4"
+        className="flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4"
         ref={contentRef}
       >
         {context.Messages.length > 0 ? (
