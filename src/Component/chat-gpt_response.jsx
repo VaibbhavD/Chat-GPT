@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loader from "./loader/Loader";
+import Context from "../ContextStore/Store";
 
 const Chatgpt_res = (props) => {
   const [displayedText, setDisplayedText] = useState("");
+
   useEffect(() => {
     if (props.user.type === "ai") {
       let i = 0;
       let text = "";
+
       setDisplayedText(""); // Reset displayedText when a new bot message is received
       const typingEffect = () => {
         if (i < props.user.data.length) {
@@ -30,7 +33,7 @@ const Chatgpt_res = (props) => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
           width={30}
-          // className="rotate-6"
+          className={`${!displayedText && "animate-spin-medium"}`}
         >
           <path
             d="M16 8.016A8.522 8.522 0 008.016 16h-.032A8.521 8.521 0 000 8.016v-.032A8.521 8.521 0 007.984 0h.032A8.522 8.522 0 0016 7.984v.032z"
@@ -51,11 +54,10 @@ const Chatgpt_res = (props) => {
             </radialGradient>
           </defs>
         </svg>
+
         <div className="flex flex-col gap-1 w-full max-w-[600px]">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="text-sm font-semibold  text-blue-500">
-              Gemini <span className="text-pink-300">AI</span>
-            </span>
+            <span className="text-md font-semibold  text-pink-400">Gemini</span>
             <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
               {props.user.time}
             </span>
