@@ -55,7 +55,8 @@ const Main = () => {
         )}
 
         {/* Render chat responses here if applicable */}
-
+      </div>
+      <div className="w-full px-2">
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-2xl flex rounded-xl border-2 p-2 bg-[#1E1F20]"
