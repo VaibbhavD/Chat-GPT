@@ -11,7 +11,7 @@ function Home() {
         </h2>
       </div>
       <div className=" grid md:grid-cols-3 gap-5 text-center text-blue-200 md:mb-14">
-        <div className="hidden md:block bg-[#1E1F20] rounded-m p-1 md:p-3">
+        <div className=" bg-[#1E1F20] rounded-m p-1 md:p-3">
           <h1 className="text-xl text-blue-600 font-bold">Google</h1>
           Gemini is the best way to directly access Google’s best family of AI
           models.{" "}
