@@ -27,7 +27,7 @@ const UserInput = (props) => {
       <div className="flex items-start gap-2.5 pb-5">
         <img
           className="w-8 h-8 rounded-full"
-          src="https://tse1.mm.bing.net/th?id=OIP.mP1RB8xuQaHAvUkonYY6HwHaHK&pid=Api&P=0&h=180"
+          src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"
           alt="User image"
         />
         <div className="flex flex-col gap-1 w-full max-w-[600px] text-white">
