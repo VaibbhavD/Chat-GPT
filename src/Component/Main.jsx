@@ -26,8 +26,10 @@ const Main = () => {
     // console.log(context.loader);
   };
   const scrollToBottom = () => {
-    const contentDiv = contentRef.current;
-    contentDiv.scrollTop = contentDiv.scrollHeight;
+    if (context.Messages.length > 0) {
+      const contentDiv = contentRef.current;
+      contentDiv.scrollTop = contentDiv.scrollHeight;
+    }
   };
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Main = () => {
   }, [context.Messages, context.loader]);
 
   return (
-    <div className="flex flex-col items-center justify-center max-h-screen h-screen text-gray-800 lg:ml-72 lg:pl-10 pb-5 bg-black">
+    <div className="flex flex-col items-center justify-center h-screen text-gray-800 lg:ml-72 lg:pl-10 pb-5 bg-black">
       <nav className="w-full h-4 py-7 flex justify-between items-center font-semibold text-lg text-white ">
         <select className="border-none font-bolder text-md p-2 rounded-md bg-transparent ">
           <option className="bg-black">GeminiAi 4.0</option>
@@ -43,7 +45,7 @@ const Main = () => {
         </select>
       </nav>
       <div
-        className="flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4 pt-2"
+        className="flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4 md:pt-4 pt-0"
         ref={contentRef}
       >
         {context.Messages.length > 0 ? (
