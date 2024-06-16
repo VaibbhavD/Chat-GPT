@@ -3,7 +3,7 @@ import gemini from "../../images/gemini.png";
 
 function Home() {
   return (
-    <div className="h-full grid items-center justify-center text-white md:py-0 py-14 gap-10 ">
+    <div className="h-full grid items-center justify-center text-white  ">
       <div className="grid gap-2 ">
         <h1 className="text-6xl font-bold text-pink-400 ">Hello -</h1>
         <h2 className="text-3xl md:text-5xl font-bold text-[#444746]">
