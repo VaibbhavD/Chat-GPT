@@ -31,7 +31,7 @@ const Sidebar = () => {
           }
         >
           <div class="text-gray-100 text-xl">
-            <div class="p-2.5 mt-1 flex items-center">
+            <div class="p-2.5 mt-1 flex items-center gap-2">
               {/* <i class=" px-2 py-1 rounded-md bg-blue-600"> */}
               <svg
                 fill="none"
@@ -59,9 +59,11 @@ const Sidebar = () => {
                 </defs>
               </svg>
               {/* </i> */}
-              <h1 class="font-bold text-blue-300 text-[15px] ml-3">
-                Gemini<span className="text-pink-400">AI</span>
-              </h1>
+              <img
+                src="https://1000logos.net/wp-content/uploads/2024/02/Gemini-Logo-768x432.png"
+                width={80}
+                // className="m-auto?"
+              />
               <i
                 class="bi bi-x cursor-pointer ml-28 lg:hidden "
                 onClick={openSidebar}
