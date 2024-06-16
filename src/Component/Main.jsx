@@ -74,6 +74,9 @@ const Main = () => {
           <img src={UpArrow} className="w-5 m-2 bg-white" alt="Send" />
         </button>
       </form>
+      <h1 className="text-white pt-2">
+        Made By <span className="text-pink-500 ">Vaibhav D</span>
+      </h1>
     </div>
   );
 };
