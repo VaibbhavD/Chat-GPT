@@ -76,7 +76,7 @@ const Main = () => {
           <img src={UpArrow} className="w-5  bg-white" alt="Send" />
         </button>
       </form>
-      <h1 className="text-white pt-2">
+      <h1 className="text-white pt-1">
         Made By{" "}
         <a
           href="https://my-portfolio-puxr.vercel.app/"
