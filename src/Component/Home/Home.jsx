@@ -3,14 +3,14 @@ import gemini from "../../images/gemini.png";
 
 function Home() {
   return (
-    <div className="h-full grid items-center justify-center text-white  ">
+    <div className="h-full grid items-center justify-center text-white md:pb-0 -pb-10  ">
       <div className="grid gap-2 -mb-20">
         <h1 className="text-6xl font-bold text-pink-400 ">Hello -</h1>
         <h2 className="text-3xl md:text-5xl font-bold text-[#444746]">
           How can I help you today?
         </h2>
       </div>
-      <div className=" grid md:grid-cols-3 gap-5 text-center text-blue-200 overflow-auto ">
+      <div className=" grid md:grid-cols-3 gap-5 text-center text-blue-200 ">
         <div className="hidden md:block bg-[#1E1F20] rounded-m p-1 md:p-3">
           <h1 className="text-xl text-blue-600 font-bold">Google</h1>
           Gemini is the best way to directly access Google’s best family of AI
