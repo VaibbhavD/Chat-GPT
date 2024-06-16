@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 function Home() {
   return (
@@ -9,7 +9,7 @@ function Home() {
           How can I help you today?
         </h2>
       </div>
-      <div className="grid grid-cols-3 gap-5 text-center text-blue-100 ">
+      <div className="grid grid-cols-3 gap-5 text-center text-blue-200 ">
         <div className="w-48 h-48 bg-[#1E1F20] rounded-md text-center p-3">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta, error
           id inventore delectus dolores repellendus
