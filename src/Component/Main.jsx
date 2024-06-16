@@ -38,14 +38,14 @@ const Main = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen text-gray-800 lg:ml-72 lg:pl-10 pb-4 bg-black">
-      {/* <nav className="w-full h-4 py-7 flex justify-between items-center font-semibold text-lg text-white ">
+      <nav className="w-full h-4 py-7 flex justify-between items-center font-semibold text-lg text-white ">
         <select className="border-none font-bolder text-md p-2 rounded-md bg-transparent ">
           <option className="bg-black">GeminiAi 4.0</option>
           <option className="bg-black">Gemini</option>
         </select>
-      </nav> */}
+      </nav>
       <div
-        className=" flex flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg px-4 md:pt-4 pt-0 "
+        className=" flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4 md:pt-4 pt-0 "
         ref={contentRef}
       >
         {context.Messages.length > 0 ? (
