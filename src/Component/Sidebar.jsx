@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import Context from "../ContextStore/Store";
 
 const Sidebar = () => {
   const [active, setActive] = useState(true);
+  const context = useContext(Context);
+
   function openSidebar() {
     // document.querySelector(".sidebar").classList.toggle("hidden");
     setActive((prev) => !prev);
   }
+
+  const ClearHandler = () => {
+    context.clearFun();
+  };
+
   return (
     <>
       <body class="bg-blue-700 hidden lg:block">
@@ -25,14 +33,34 @@ const Sidebar = () => {
           <div class="text-gray-100 text-xl">
             <div class="p-2.5 mt-1 flex items-center">
               {/* <i class=" px-2 py-1 rounded-md bg-blue-600"> */}
-              <img
-                src="https://tse4.mm.bing.net/th?id=OIP.n6aTpKW4pOfH1J91PU5yhwAAAA&pid=Api&P=0&h=180"
-                alt="image"
-                className="w-10 bg-gray-900"
-              />
+              <svg
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                width={30}
+              >
+                <path
+                  d="M16 8.016A8.522 8.522 0 008.016 16h-.032A8.521 8.521 0 000 8.016v-.032A8.521 8.521 0 007.984 0h.032A8.522 8.522 0 0016 7.984v.032z"
+                  fill="url(#prefix__paint0_radial_980_20147)"
+                />
+                <defs>
+                  <radialGradient
+                    id="prefix__paint0_radial_980_20147"
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="matrix(16.1326 5.4553 -43.70045 129.2322 1.588 6.503)"
+                  >
+                    <stop offset=".067" stop-color="#9168C0" />
+                    <stop offset=".343" stop-color="#5684D1" />
+                    <stop offset=".672" stop-color="#1BA1E3" />
+                  </radialGradient>
+                </defs>
+              </svg>
               {/* </i> */}
               <h1 class="font-bold text-blue-300 text-[15px] ml-3">
-                Gemini <span className="text-pink-500">AI</span>
+                Gemini<span className="text-pink-400">AI</span>
               </h1>
               <i
                 class="bi bi-x cursor-pointer ml-28 lg:hidden "
@@ -46,7 +74,10 @@ const Sidebar = () => {
             <i class="bi bi-house-door-fill"></i>
             <span class="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
           </div>
-          <div class="p-2.5 mt-3 flex items-center justify-between rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+          <div
+            class="p-2.5 mt-3 flex items-center justify-between rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
+            onClick={ClearHandler}
+          >
             <span class="text-[15px] ml-4 text-gray-200 font-bold">
               New Chat
             </span>
