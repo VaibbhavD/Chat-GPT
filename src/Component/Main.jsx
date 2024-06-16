@@ -55,36 +55,37 @@ const Main = () => {
         )}
 
         {/* Render chat responses here if applicable */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-2xl flex rounded-xl border-2 p-2 bg-[#1E1F20]"
+        >
+          <input
+            className="flex items-center text-white h-4 w-full min-w-2xl rounded-xl p-4 text-md outline-none font-bolder bg-[#1E1F20]"
+            type="text"
+            placeholder="Type your message…"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="bg-white rounded-full p-1"
+            disabled={context.loader === true ? true : false}
+          >
+            <img src={UpArrow} className="w-5 bg-white" alt="Send" />
+          </button>
+        </form>
+        <h1 className="text-white pt-1 text-center">
+          Made By{" "}
+          <a
+            href="https://my-portfolio-puxr.vercel.app/"
+            className="text-pink-500 "
+          >
+            Vaibhav D
+          </a>
+        </h1>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-2xl flex rounded-xl border-2 p-2 bg-[#1E1F20]"
-      >
-        <input
-          className="flex items-center text-white h-4 w-full min-w-2xl rounded-xl p-4 text-md outline-none font-bolder bg-[#1E1F20]"
-          type="text"
-          placeholder="Type your message…"
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-white rounded-full p-1"
-          disabled={context.loader === true ? true : false}
-        >
-          <img src={UpArrow} className="w-5 bg-white" alt="Send" />
-        </button>
-      </form>
-      <h1 className="text-white pt-1">
-        Made By{" "}
-        <a
-          href="https://my-portfolio-puxr.vercel.app/"
-          className="text-pink-500 "
-        >
-          Vaibhav D
-        </a>
-      </h1>
     </div>
   );
 };
