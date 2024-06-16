@@ -58,7 +58,7 @@ const Main = () => {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl flex rounded-xl border-2 p-2 bg-[#1E1F20]"
+        className="w-full max-w-2xl flex rounded-xl border-2 p-2 mb-5 md:mb-0 bg-[#1E1F20]"
       >
         <input
           className="flex items-center text-white h-4 w-full min-w-2xl rounded-xl p-4 text-md outline-none font-bolder bg-[#1E1F20]"
@@ -76,7 +76,7 @@ const Main = () => {
           <img src={UpArrow} className="w-5 m-2 bg-white" alt="Send" />
         </button>
       </form>
-      <h1 className="text-white pt-2 mb-2">
+      <h1 className="text-white mb-7 pt-2 md:mb-2">
         Made By{" "}
         <a
           href="https://my-portfolio-puxr.vercel.app/"
