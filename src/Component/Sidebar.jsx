@@ -8,7 +8,7 @@ const Sidebar = () => {
   }
   return (
     <>
-      <body class="bg-blue-600 hidden lg:block">
+      <body class="bg-blue-700 hidden lg:block">
         <span
           class="absolute text-white text-4xl top-5 left-4 cursor-pointer"
           onClick={openSidebar}
@@ -18,7 +18,7 @@ const Sidebar = () => {
         <div
           class={
             active
-              ? "sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900"
+              ? "sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-[#1E1F20]"
               : "hidden"
           }
         >
@@ -31,7 +31,9 @@ const Sidebar = () => {
                 className="w-10 bg-gray-900"
               />
               {/* </i> */}
-              <h1 class="font-bold text-gray-200 text-[15px] ml-3">Chat-gpt</h1>
+              <h1 class="font-bold text-blue-300 text-[15px] ml-3">
+                Gemini <span className="text-pink-500">AI</span>
+              </h1>
               <i
                 class="bi bi-x cursor-pointer ml-28 lg:hidden "
                 onClick={openSidebar}
@@ -44,13 +46,13 @@ const Sidebar = () => {
             <i class="bi bi-house-door-fill"></i>
             <span class="text-[15px] ml-4 text-gray-200 font-bold">Home</span>
           </div>
-          <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
-            <i class="bi bi-bookmark-fill"></i>
+          <div class="p-2.5 mt-3 flex items-center justify-between rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
             <span class="text-[15px] ml-4 text-gray-200 font-bold">
-              Bookmark
+              New Chat
             </span>
+            <i className="text-2xl font-bold text-center">+</i>
           </div>
-          <div class="my-4 bg-gray-600 h-[1px]"></div>
+          {/* <div class="my-4 bg-gray-600 h-[1px]"></div>
           <div
             class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white"
             onclick="dropdown()"
@@ -78,11 +80,11 @@ const Sidebar = () => {
             <h1 class="cursor-pointer p-2 hover:bg-blue-600 rounded-md mt-1">
               Friends
             </h1>
-          </div>
-          <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white ">
+          </div> */}
+          {/* <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white ">
             <i class="bi bi-box-arrow-in-right"></i>
             <span class="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
-          </div>
+          </div> */}
         </div>
       </body>
     </>
