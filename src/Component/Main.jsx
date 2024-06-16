@@ -75,7 +75,13 @@ const Main = () => {
         </button>
       </form>
       <h1 className="text-white pt-2">
-        Made By <span className="text-pink-500 ">Vaibhav D</span>
+        Made By{" "}
+        <a
+          href="https://my-portfolio-puxr.vercel.app/"
+          className="text-pink-500 "
+        >
+          Vaibhav D
+        </a>
       </h1>
     </div>
   );
