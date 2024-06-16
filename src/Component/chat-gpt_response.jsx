@@ -38,11 +38,11 @@ const Chatgpt_res = (props) => {
         <div className="flex flex-col gap-1 w-full max-w-[600px]">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="text-md font-semibold  text-pink-400">Gemini</span>
-            <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
+            <span className="text-xs font-normal text-gray-500 ">
               {props.user.time}
             </span>
           </div>
-          <div className="flex flex-col leading-1.5 p-4 border-gray-200  rounded-e-xl rounded-es-xl dark:bg-gray-700">
+          <div className="flex flex-col leading-1.5 p-4 border-gray-200  rounded-e-xl rounded-es-xl ">
             <p className="text-sm font-normal text-white">
               {displayedText && displayedText}
               {!displayedText && <Loader />}

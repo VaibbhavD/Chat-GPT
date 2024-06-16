@@ -45,7 +45,7 @@ const Main = () => {
         </select>
       </nav>
       <div
-        className="flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4 md:pt-4 pt-0"
+        className=" flex flex-col flex-grow w-full max-w-2xl overflow-auto scrollbar-hide rounded-lg p-4 md:pt-4 pt-0 "
         ref={contentRef}
       >
         {context.Messages.length > 0 ? (
@@ -58,7 +58,7 @@ const Main = () => {
       </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl flex rounded-xl border-2 p-2  bg-[#1E1F20]"
+        className="w-full max-w-2xl flex rounded-xl border-2 p-2 bg-[#1E1F20]"
       >
         <input
           className="flex items-center text-white h-4 w-full min-w-2xl rounded-xl p-4 text-md outline-none font-bolder bg-[#1E1F20]"

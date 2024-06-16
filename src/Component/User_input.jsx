@@ -24,7 +24,7 @@ const UserInput = (props) => {
 
   return (
     <>
-      <div className="flex items-start gap-2.5 pb-5">
+      <div className="flex items-start gap-2.5 pb-5 ">
         <img
           className="w-8 h-8 rounded-full"
           src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"
