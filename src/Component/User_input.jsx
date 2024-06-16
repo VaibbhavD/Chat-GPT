@@ -14,6 +14,7 @@ const UserInput = (props) => {
       time: new Date().toLocaleTimeString(),
     };
     Setres(ai);
+    context.Setloader(false);
     // context.AddMesages(ai);
   };
 
