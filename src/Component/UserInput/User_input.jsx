@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Chatgpt_res from "./chat-gpt_response";
-import { run } from "../ContextStore/ChatGPTapi";
-import Context from "../ContextStore/Store";
+import { run } from "../../ChatGpt_Integration/ChatGPTapi";
+import Context from "../../ContextStore/Store";
 
 const UserInput = (props) => {
   const context = useContext(Context);

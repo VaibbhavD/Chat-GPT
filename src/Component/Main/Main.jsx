@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import UserInput from "./User_input";
+import UserInput from "../UserInput/User_input";
 import Chatgpt_res from "./chat-gpt_response";
 import UpArrow from "../images/up-arrow.png";
-import Context from "../ContextStore/Store";
+import Context from "../../ContextStore/Store";
 import "../App.css";
-import Home from "./Home/Home";
+import Home from "../Home/Home";
 
 const Main = () => {
   const [userInput, setUserInput] = useState("");

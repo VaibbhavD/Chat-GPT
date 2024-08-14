@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import Context from "../ContextStore/Store";
+import Context from "../../ContextStore/Store";
 
 const Sidebar = () => {
   const [active, setActive] = useState(true);
