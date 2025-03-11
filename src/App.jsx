@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Sidebar from "./Component/Sidebar";
+import Sidebar from "./Component/Sidebar/Sidebar.jsx";
 import "./App.css";
-import Main from "./Component/Main";
-import ChatGPTPage from "./Component/Sidebar";
+import Main from "./Component/Main/Main.jsx";
+import ChatGPTPage from "./Component/Sidebar/Sidebar.jsx";
 import ContextProvider from "./ContextStore/ContextProvider";
 
 function App() {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Chatgpt_res from "./chat-gpt_response";
+import Chatgpt_res from "../chatgpyRes/chat-gpt_response.jsx";
 import { run } from "../../ChatGpt_Integration/ChatGPTapi";
 import Context from "../../ContextStore/Store";
 

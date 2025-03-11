@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import Loader from "./loader/Loader";
-import Context from "../ContextStore/Store";
-import gemini from "../images/gemini.png";
+import Loader from "../loader/Loader.jsx";
+import Context from "../../ContextStore/Store.js";
+import gemini from "../../images/gemini.png";
 
 const Chatgpt_res = (props) => {
   const [displayedText, setDisplayedText] = useState("");

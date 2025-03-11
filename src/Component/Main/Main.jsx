@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import UserInput from "../UserInput/User_input";
-import Chatgpt_res from "./chat-gpt_response";
-import UpArrow from "../images/up-arrow.png";
+import UserInput from "../UserInput/User_input.jsx";
+import Chatgpt_res from "../chatgpyRes/chat-gpt_response.jsx";
+import UpArrow from "../../images/up-arrow.png";
 import Context from "../../ContextStore/Store";
-import "../App.css";
+import "../../App.css";
 import Home from "../Home/Home";
 
 const Main = () => {
