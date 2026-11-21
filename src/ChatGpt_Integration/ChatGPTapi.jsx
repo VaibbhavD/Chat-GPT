@@ -18,28 +18,46 @@ const generationConfig = {
 
 const MAX_RETRIES = 3;
 const INITIAL_DELAY = 1000;
+const REQUEST_TIMEOUT = 30000;
 
 // Delay helper
 const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-// Check whether the error is temporary
+// Check retryable errors
 function isRetryableError(error) {
   const status = Number(
-    error?.status || error?.code || error?.error?.code
+    error?.status ??
+    error?.response?.status ??
+    error?.error?.code
   );
 
-  // Retry temporary HTTP errors
+  const message = String(error?.message || "").toLowerCase();
+  const name = String(error?.name || "").toLowerCase();
+
+  // Temporary HTTP errors
   if ([408, 429, 500, 502, 503, 504].includes(status)) {
     return true;
   }
 
-  // Retry network errors without an HTTP status
-  if (!status) {
-    return true;
+  // Permanent client errors
+  if (status >= 400 && status < 500) {
+    return false;
   }
 
-  return false;
+  // Timeout and network errors
+  return (
+    name.includes("timeout") ||
+    name.includes("abort") ||
+    message.includes("timeout") ||
+    message.includes("timed out") ||
+    message.includes("network") ||
+    message.includes("fetch failed") ||
+    message.includes("connection") ||
+    message.includes("econnreset") ||
+    message.includes("enotfound") ||
+    !status
+  );
 }
 
 // Sanitize response
@@ -51,7 +69,7 @@ function sanitizeText(text) {
     .trim();
 }
 
-// Main Gemini function with automatic retry
+// Main Gemini function
 export async function run(input) {
   if (typeof input !== "string" || !input.trim()) {
     throw new Error("Please enter a valid message.");
@@ -61,11 +79,27 @@ export async function run(input) {
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
+      console.log(
+        `Gemini API: Attempt ${attempt + 1}/${MAX_RETRIES + 1}`
+      );
+
       const result = await genAI.models.generateContent({
         model: "gemini-3.8-flash",
         contents: input.trim(),
+
         config: {
           ...generationConfig,
+
+          // Request timeout and SDK retry configuration
+          httpOptions: {
+            timeout: REQUEST_TIMEOUT,
+
+            // Disable SDK retries because we handle retries below
+            retryOptions: {
+              attempts: 1,
+            },
+          },
+
           safetySettings: [
             {
               category: "HARM_CATEGORY_HARASSMENT",
@@ -87,6 +121,8 @@ export async function run(input) {
         },
       });
 
+      console.log("Gemini API response received.");
+
       return sanitizeText(result.text || "");
 
     } catch (error) {
@@ -97,20 +133,21 @@ export async function run(input) {
         error
       );
 
-      // Stop if this is a permanent error
       if (!isRetryableError(error)) {
+        console.error("Permanent error. Stopping retries.");
         break;
       }
 
-      // Stop after maximum retries
       if (attempt === MAX_RETRIES) {
+        console.error("Maximum retries reached.");
         break;
       }
 
-      // Exponential backoff: 1s, 2s, 4s
       const delay = INITIAL_DELAY * Math.pow(2, attempt);
 
-      console.log(`Retrying Gemini API in ${delay / 1000}s...`);
+      console.log(
+        `Retrying in ${delay / 1000} seconds...`
+      );
 
       await sleep(delay);
     }
@@ -118,6 +155,6 @@ export async function run(input) {
 
   throw new Error(
     lastError?.message ||
-      "Gemini API is temporarily unavailable. Please try again."
+      "Gemini API is unavailable. Please try again."
   );
 }
