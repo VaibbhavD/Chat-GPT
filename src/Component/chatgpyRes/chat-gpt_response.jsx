@@ -1,69 +1,72 @@
 
-import React, { useEffect, useState } from "react";
-import Loader from "../loader/Loader.jsx";
-import gemini from "../../images/gemini.png";
+export async function run(input) {
+  if (typeof input !== "string" || !input.trim()) {
+    throw new Error("Please enter a valid message.");
+  }
 
-const Chatgpt_res = (props) => {
-  const [displayedText, setDisplayedText] = useState("");
+  let lastError;
 
-  useEffect(() => {
-    const data = props.user?.data || "";
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      console.log(`Gemini API request: Attempt ${attempt + 1}`);
 
-    if (props.user?.type !== "ai") {
-      setDisplayedText(data);
-      return;
-    }
+      const result = await genAI.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: input.trim(),
+        config: {
+          ...generationConfig,
+          safetySettings: [
+            {
+              category: "HARM_CATEGORY_HARASSMENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE",
+            },
+            {
+              category: "HARM_CATEGORY_HATE_SPEECH",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE",
+            },
+            {
+              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE",
+            },
+            {
+              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+              threshold: "BLOCK_MEDIUM_AND_ABOVE",
+            },
+          ],
+        },
+        httpOptions: {
+          timeout: 30000,
+        },
+      });
 
-    let i = 0;
-    let timeoutId;
+      return sanitizeText(result.text || "");
 
-    setDisplayedText("");
+    } catch (error) {
+      lastError = error;
 
-    const typingEffect = () => {
-      if (i < data.length) {
-        setDisplayedText(data.slice(0, i + 1));
-        i++;
+      console.error(
+        `Gemini API attempt ${attempt + 1} failed:`,
+        error
+      );
 
-        timeoutId = setTimeout(typingEffect, 10);
+      if (!isRetryableError(error)) {
+        break;
       }
-    };
 
-    typingEffect();
+      if (attempt === MAX_RETRIES) {
+        break;
+      }
 
-    // Cleanup previous animation
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [props.user?.data, props.user?.type]);
+      const delay = INITIAL_DELAY * Math.pow(2, attempt);
 
-  return (
-    <div className="flex items-start gap-2.5 pb-5">
-      <img
-        src={gemini}
-        alt="Gemini"
-        width={30}
-        className={`${!displayedText ? "animate-spin-medium" : ""}`}
-      />
+      console.log(`Retrying in ${delay / 1000} seconds...`);
 
-      <div className="flex flex-col gap-1 w-full max-w-[600px]">
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <span className="text-md font-semibold text-pink-400">
-            Gemini
-          </span>
+      await sleep(delay);
+    }
+  }
 
-          <span className="text-xs font-normal text-gray-500">
-            {props.user?.time}
-          </span>
-        </div>
-
-        <div className="flex flex-col leading-1.5 p-4 border-gray-200 rounded-e-xl rounded-es-xl">
-          <p className="text-sm font-normal text-white whitespace-pre-wrap break-words">
-            {displayedText || <Loader />}
-          </p>
-        </div>
-      </div>
-    </div>
+  throw new Error(
+    lastError?.message ||
+      "Request timed out. Please try again."
   );
-};
-
-export default Chatgpt_res;
+}
