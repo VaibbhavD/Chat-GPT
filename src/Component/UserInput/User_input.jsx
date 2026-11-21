@@ -1,49 +1,38 @@
-import React, { useState, useEffect, useContext } from "react";
+
+import React from "react";
 import Chatgpt_res from "../chatgpyRes/chat-gpt_response.jsx";
-import { run } from "../../ChatGpt_Integration/ChatGPTapi";
-import Context from "../../ContextStore/Store";
 
-const UserInput = (props) => {
-  const context = useContext(Context);
-  const [response, Setres] = useState({});
-  const getres = async () => {
-    const res = await run(props.user.data);
-    const ai = {
-      type: "ai",
-      data: res,
-      time: new Date().toLocaleTimeString(),
-    };
-    Setres(ai);
-    context.Setloader(false);
-    // context.AddMesages(ai);
-  };
-
-  useEffect(() => {
-    getres();
-  }, []);
+const UserInput = ({ user }) => {
+  if (user?.type === "ai") {
+    return <Chatgpt_res user={user} />;
+  }
 
   return (
-    <>
-      <div className="flex items-start gap-2.5 pb-5 ">
-        <img
-          className="w-8 h-8 rounded-full"
-          src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"
-          alt="User image"
-        />
-        <div className="flex flex-col gap-1 w-full max-w-[600px] text-white">
-          <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="text-sm font-semibold  dark:text-white">You</span>
-            <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
-              {props.user.time}
-            </span>
-          </div>
-          <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-[#1E1F20] rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <p className="text-sm font-normal ">{props.user.data}</p>
-          </div>
+    <div className="flex items-start gap-2.5 pb-5 w-full">
+      <img
+        className="w-8 h-8 rounded-full shrink-0"
+        src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"
+        alt="User"
+      />
+
+      <div className="flex flex-col gap-1 w-full max-w-[600px] min-w-0 text-white">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold">
+            You
+          </span>
+
+          <span className="text-xs text-gray-500">
+            {user?.time}
+          </span>
+        </div>
+
+        <div className="p-4 bg-[#1E1F20] rounded-e-xl rounded-es-xl">
+          <p className="text-sm whitespace-pre-wrap break-words">
+            {user?.data}
+          </p>
         </div>
       </div>
-      <Chatgpt_res user={response} />
-    </>
+    </div>
   );
 };
 
