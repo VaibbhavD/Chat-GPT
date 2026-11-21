@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import Loader from "../loader/Loader.jsx";
 import gemini from "../../images/gemini.png";
 
 const Chatgpt_res = ({ user }) => {
@@ -75,7 +74,31 @@ const Chatgpt_res = ({ user }) => {
           <div className="text-sm font-normal text-white whitespace-pre-wrap break-words">
 
             {isAI && !displayedText ? (
-              <Loader />
+              <div className="flex items-center gap-1.5 py-1">
+                {[0, 1, 2].map((dot) => (
+                  <span
+                    key={dot}
+                    className="w-2 h-2 rounded-full bg-pink-400"
+                    style={{
+                      animation: "typingDots 1.4s infinite ease-in-out",
+                      animationDelay: `${dot * 0.2}s`,
+                    }}
+                  />
+                ))}
+
+                <style>{`
+                  @keyframes typingDots {
+                    0%, 60%, 100% {
+                      opacity: 0.3;
+                      transform: translateY(0);
+                    }
+                    30% {
+                      opacity: 1;
+                      transform: translateY(-5px);
+                    }
+                  }
+                `}</style>
+              </div>
             ) : (
               displayedText
             )}
