@@ -6,10 +6,14 @@ import gemini from "../../images/gemini.png";
 const Chatgpt_res = ({ user }) => {
   const [displayedText, setDisplayedText] = useState("");
 
+  const isAI = user?.type === "ai";
+  const isLoading = isAI && user?.loading;
+  const isError = isAI && user?.error;
+
   useEffect(() => {
     const data = user?.data || "";
 
-    if (user?.type !== "ai") {
+    if (!isAI || isLoading) {
       setDisplayedText(data);
       return;
     }
@@ -39,23 +43,27 @@ const Chatgpt_res = ({ user }) => {
       cancelled = true;
       clearTimeout(timeoutId);
     };
-  }, [user?.data, user?.type]);
-
-  const isAI = user?.type === "ai";
+  }, [user?.data, user?.type, isLoading]);
 
   return (
     <div className="flex items-start gap-2.5 pb-5 w-full">
+
+      {/* Avatar */}
       <img
         src={gemini}
         alt="Gemini"
         width={30}
         height={30}
         className={`shrink-0 ${
-          isAI && !displayedText ? "animate-spin-medium" : ""
+          isAI && (isLoading || !displayedText)
+            ? "animate-spin-medium"
+            : ""
         }`}
       />
 
       <div className="flex flex-col gap-1 w-full max-w-[600px] min-w-0">
+
+        {/* Header */}
         <div className="flex items-center gap-2">
           <span className="text-md font-semibold text-pink-400">
             {isAI ? "Gemini" : "You"}
@@ -66,13 +74,20 @@ const Chatgpt_res = ({ user }) => {
           </span>
         </div>
 
+        {/* Message */}
         <div className="rounded-e-xl rounded-es-xl p-4">
           <div className="text-sm font-normal text-white whitespace-pre-wrap break-words">
-            {isAI && !displayedText ? (
+
+            {isLoading ? (
               <Loader />
+            ) : isError ? (
+              <span className="text-red-400">
+                {user.error}
+              </span>
             ) : (
-              displayedText
+              displayedText || (isAI ? <Loader /> : "")
             )}
+
           </div>
         </div>
       </div>
