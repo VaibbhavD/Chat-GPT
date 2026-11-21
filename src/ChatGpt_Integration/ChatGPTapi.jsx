@@ -35,7 +35,7 @@ export async function run(input) {
     }
 
     const result = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.8-flash",
       contents: input.trim(),
       config: {
         ...generationConfig,
