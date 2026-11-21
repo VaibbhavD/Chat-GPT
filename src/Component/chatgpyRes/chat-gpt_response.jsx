@@ -1,72 +1,90 @@
 
-export async function run(input) {
-  if (typeof input !== "string" || !input.trim()) {
-    throw new Error("Please enter a valid message.");
-  }
+import React, { useEffect, useState } from "react";
+import Loader from "../loader/Loader.jsx";
+import gemini from "../../images/gemini.png";
 
-  let lastError;
+const Chatgpt_res = ({ user }) => {
+  const [displayedText, setDisplayedText] = useState("");
 
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      console.log(`Gemini API request: Attempt ${attempt + 1}`);
+  useEffect(() => {
+    const data = user?.data || "";
 
-      const result = await genAI.models.generateContent({
-        model: "gemini-3.5-flash-light",
-        contents: input.trim(),
-        config: {
-          ...generationConfig,
-          safetySettings: [
-            {
-              category: "HARM_CATEGORY_HARASSMENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE",
-            },
-            {
-              category: "HARM_CATEGORY_HATE_SPEECH",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE",
-            },
-            {
-              category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE",
-            },
-            {
-              category: "HARM_CATEGORY_DANGEROUS_CONTENT",
-              threshold: "BLOCK_MEDIUM_AND_ABOVE",
-            },
-          ],
-        },
-        httpOptions: {
-          timeout: 30000,
-        },
-      });
-
-      return sanitizeText(result.text || "");
-
-    } catch (error) {
-      lastError = error;
-
-      console.error(
-        `Gemini API attempt ${attempt + 1} failed:`,
-        error
-      );
-
-      if (!isRetryableError(error)) {
-        break;
-      }
-
-      if (attempt === MAX_RETRIES) {
-        break;
-      }
-
-      const delay = INITIAL_DELAY * Math.pow(2, attempt);
-
-      console.log(`Retrying in ${delay / 1000} seconds...`);
-
-      await sleep(delay);
+    if (user?.type !== "ai") {
+      setDisplayedText(data);
+      return;
     }
-  }
 
-  throw new Error(
-    lastError?.message ||
-      "Request timed out. Please try again."
+    let index = 0;
+    let timeoutId;
+    let cancelled = false;
+
+    setDisplayedText("");
+
+    const typingEffect = () => {
+      if (cancelled) return;
+
+      if (index < data.length) {
+        setDisplayedText(data.slice(0, index + 1));
+        index++;
+
+        timeoutId = setTimeout(typingEffect, 10);
+      }
+    };
+
+    if (data) {
+      typingEffect();
+    }
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [user?.data, user?.type]);
+
+  const isAI = user?.type === "ai";
+
+  return (
+    <div className="flex items-start gap-2.5 pb-5 w-full">
+
+      {/* Avatar */}
+      <img
+        src={gemini}
+        alt="Gemini"
+        width={30}
+        height={30}
+        className={`shrink-0 ${
+          isAI && !displayedText ? "animate-spin-medium" : ""
+        }`}
+      />
+
+      <div className="flex flex-col gap-1 w-full max-w-[600px] min-w-0">
+
+        {/* Header */}
+        <div className="flex items-center gap-2">
+          <span className="text-md font-semibold text-pink-400">
+            {isAI ? "Gemini" : "You"}
+          </span>
+
+          <span className="text-xs text-gray-500">
+            {user?.time}
+          </span>
+        </div>
+
+        {/* Message */}
+        <div className="rounded-e-xl rounded-es-xl p-4">
+          <div className="text-sm font-normal text-white whitespace-pre-wrap break-words">
+
+            {isAI && !displayedText ? (
+              <Loader />
+            ) : (
+              displayedText
+            )}
+
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default Chatgpt_res;
