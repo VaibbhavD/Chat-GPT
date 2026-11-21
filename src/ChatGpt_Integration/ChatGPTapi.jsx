@@ -24,13 +24,19 @@ const REQUEST_TIMEOUT = 30000;
 const sleep = (ms) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
-// Check retryable errors
-function isRetryableError(error) {
-  const status = Number(
+// Extract HTTP status
+function getErrorStatus(error) {
+  return Number(
     error?.status ??
     error?.response?.status ??
-    error?.error?.code
+    error?.error?.code ??
+    0
   );
+}
+
+// Check retryable errors
+function isRetryableError(error) {
+  const status = getErrorStatus(error);
 
   const message = String(error?.message || "").toLowerCase();
   const name = String(error?.name || "").toLowerCase();
@@ -45,7 +51,7 @@ function isRetryableError(error) {
     return false;
   }
 
-  // Timeout and network errors
+  // Network and timeout errors
   return (
     name.includes("timeout") ||
     name.includes("abort") ||
@@ -69,7 +75,47 @@ function sanitizeText(text) {
     .trim();
 }
 
-// Main Gemini function
+// Get user-friendly error message
+function getUserErrorMessage(error) {
+  const status = getErrorStatus(error);
+
+  if (status === 503 || status === 502 || status === 500) {
+    return "Gemini is temporarily unavailable. Please try again later.";
+  }
+
+  if (status === 429) {
+    return "Too many requests. Please wait a moment and try again.";
+  }
+
+  if (status === 401 || status === 403) {
+    return "Gemini API authentication failed. Please check your API key.";
+  }
+
+  if (status === 400) {
+    return "Invalid request. Please check your message and try again.";
+  }
+
+  const message = String(error?.message || "").toLowerCase();
+
+  if (
+    message.includes("timeout") ||
+    message.includes("timed out") ||
+    error?.name?.toLowerCase().includes("timeout")
+  ) {
+    return "Request timed out. Please try again.";
+  }
+
+  if (
+    message.includes("network") ||
+    message.includes("fetch failed")
+  ) {
+    return "Network error. Please check your internet connection.";
+  }
+
+  return "Something went wrong. Please try again.";
+}
+
+// Main Gemini function with retry
 export async function run(input) {
   if (typeof input !== "string" || !input.trim()) {
     throw new Error("Please enter a valid message.");
@@ -90,11 +136,8 @@ export async function run(input) {
         config: {
           ...generationConfig,
 
-          // Request timeout and SDK retry configuration
           httpOptions: {
             timeout: REQUEST_TIMEOUT,
-
-            // Disable SDK retries because we handle retries below
             retryOptions: {
               attempts: 1,
             },
@@ -123,7 +166,13 @@ export async function run(input) {
 
       console.log("Gemini API response received.");
 
-      return sanitizeText(result.text || "");
+      const response = sanitizeText(result.text || "");
+
+      if (!response) {
+        throw new Error("Gemini returned an empty response.");
+      }
+
+      return response;
 
     } catch (error) {
       lastError = error;
@@ -153,8 +202,6 @@ export async function run(input) {
     }
   }
 
-  throw new Error(
-    lastError?.message ||
-      "Gemini API is unavailable. Please try again."
-  );
+  // Throw user-friendly error after all retries
+  throw new Error(getUserErrorMessage(lastError));
 }
