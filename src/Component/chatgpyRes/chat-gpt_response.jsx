@@ -11,7 +11,7 @@ export async function run(input) {
       console.log(`Gemini API request: Attempt ${attempt + 1}`);
 
       const result = await genAI.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.5-flash-light",
         contents: input.trim(),
         config: {
           ...generationConfig,
