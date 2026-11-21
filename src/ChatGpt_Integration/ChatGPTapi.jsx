@@ -1,67 +1,74 @@
-/*
- * Install the Generative AI SDK
- *
- * $ npm install @google/generative-ai
- *
- * See the getting started guide for more information
- * https://ai.google.dev/gemini-api/docs/get-started/node
- */
-import {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} from "@google/generative-ai";
+
+import { GoogleGenAI } from "@google/genai";
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-3.8-flash",
-});
+if (!apiKey) {
+  throw new Error("Gemini API key is missing.");
+}
 
+const genAI = new GoogleGenAI({ apiKey });
+
+// Generation configuration
 const generationConfig = {
   temperature: 1,
   topP: 0.95,
   topK: 64,
   maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
 };
 
-const safetySettings = [
-  {
-    category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-    threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-    threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-    threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-  },
-  {
-    category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-    threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-  },
-];
-
+// Sanitize response without damaging Markdown,
+// code snippets, emojis, or other languages.
 function sanitizeText(text) {
-  // Replace or remove unwanted characters
-  return text.replace(/[^a-zA-Z0-9 .,?!]/g, ""); // Example: only keep letters, numbers, and basic punctuation
+  if (typeof text !== "string") return "";
+
+  return text
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    .trim();
 }
 
+// Main Gemini function
 export async function run(input) {
-  const chatSession = model.startChat({
-    generationConfig,
-    safetySettings,
-    history: [],
-  });
+  try {
+    if (typeof input !== "string" || !input.trim()) {
+      throw new Error("Please enter a valid message.");
+    }
 
-  const result = await chatSession.sendMessage(input);
-  const responseText = result.response.text();
+    const result = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: input.trim(),
+      config: {
+        ...generationConfig,
+        safetySettings: [
+          {
+            category: "HARM_CATEGORY_HARASSMENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_HATE_SPEECH",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+          {
+            category: "HARM_CATEGORY_DANGEROUS_CONTENT",
+            threshold: "BLOCK_MEDIUM_AND_ABOVE",
+          },
+        ],
+      },
+    });
 
-  // Sanitize the response text
-  const sanitizedResponse = sanitizeText(responseText);
-  return sanitizedResponse;
+    const responseText = result.text || "";
+
+    return sanitizeText(responseText);
+
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+
+    throw new Error(
+      error.message || "Something went wrong. Please try again."
+    );
+  }
 }
