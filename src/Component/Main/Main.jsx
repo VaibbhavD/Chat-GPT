@@ -14,60 +14,55 @@ const Main = () => {
   const context = useContext(Context);
   const contentRef = useRef(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ 
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const message = userInput.trim();
+  const message = userInput.trim();
 
-    if (!message || context.loader) return;
+  if (!message || context.loader) return;
 
-    // Start loading
-    context.Setloader(true);
+  context.Setloader(true);
 
-    // Add user message
-    context.AddMesages({
-      type: "user",
-      data: message,
-      time: new Date().toLocaleTimeString(),
-    });
+  context.AddMesages({
+    type: "user",
+    data: message,
+    time: new Date().toLocaleTimeString(),
+  });
 
-    // Add empty AI message immediately (shows three dots)
-    context.AddMesages({
-      type: "ai",
-      data: "",
-      loading: true,
+  context.AddMesages({
+    type: "ai",
+    data: "",
+    loading: true,
+    error: false,
+    time: new Date().toLocaleTimeString(),
+  });
+
+  setUserInput("");
+
+  try {
+    const response = await run(message);
+
+    context.UpdateLastMessage({
+      data: response,
+      loading: false,
       error: false,
-      time: new Date().toLocaleTimeString(),
     });
 
-    setUserInput("");
+  } catch (error) {
+    console.error("Gemini API Error:", error);
 
-    try {
-      // Call Gemini API
-      const response = await run(message);
+    context.UpdateLastMessage({
+      data: error.message || "Gemini is temporarily unavailable. Please try again.",
+      loading: false,
+      error: true,
+    });
 
-      // Update existing AI message
-      context.UpdateLastMessage({
-        data: response,
-        loading: false,
-        error: false,
-      });
+  } finally {
+    context.Setloader(false);
+  }
+};
 
-    } catch (error) {
-      console.error("Gemini API Error:", error);
-
-      // Display error in existing AI message
-      context.UpdateLastMessage({
-        data: error.message || "Something went wrong. Please try again.",
-        loading: false,
-        error: true,
-      });
-
-    } finally {
-      // Stop loading
-      context.Setloader(false);
-    }
-  };
 
   // Auto scroll
   const scrollToBottom = () => {
